@@ -1,0 +1,11 @@
+🌸 BLOOM CLI
+
+Available commands:
+
+  sow     - Seed a new project with initial structure
+  grow    - Prepare project for development and staging
+  bloom   - Deploy project to production (Build, Launch, Orchestrate, Operate, Monitor)
+
+Usage:
+  bloom <command>
+  bloom         # show this help

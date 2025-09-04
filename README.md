@@ -31,3 +31,8 @@ M	Monitor	Tracks metrics, logs, and alerts.
 
 BLOOM = Build, Launch, Orchestrate, Operate, Monitor
 Represents the project flowering: ready to deliver real value in production.
+
+📝 License
+
+This software is free to use, but cannot be sold or sublicensed.
+Based on the CC BY-NC 4.0 philosophy, adapted for software.

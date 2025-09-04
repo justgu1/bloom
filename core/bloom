@@ -1,0 +1,24 @@
+#!/bin/bash
+
+if [ $# -eq 0 ]; then
+    # Nenhum comando
+    cat "$HOME/.bloom/help.txt"
+    exit 0
+fi
+
+case "$1" in
+    sow)
+        # executar função sow
+        ;;
+    grow)
+        # executar função grow
+        ;;
+    bloom)
+        # executar função bloom
+        ;;
+    *)
+        echo "Unknown command: $1"
+        cat "$HOME/.bloom/help.txt"
+        exit 1
+        ;;
+esac

@@ -1,0 +1,48 @@
+#!/bin/bash
+
+# Verificar se o docker está instalado
+if command -v docker >/dev/null 2>&1; then
+  echo "Docker is already installed: $(docker --version)"
+else
+# Instalar o docker
+    echo "Docker not found. Attempting automatic installation..."
+    {
+        for pkg in docker.io docker-doc docker-compose docker-compose-v2 podman-docker containerd runc; do sudo apt-get remove -y $pkg; done
+
+        sudo apt-get update
+        sudo apt-get install -y ca-certificates curl
+        sudo install -m 0755 -d /etc/apt/keyrings
+        sudo curl -fsSL https://download.docker.com/linux/ubuntu/gpg -o /etc/apt/keyrings/docker.asc
+        sudo chmod a+r /etc/apt/keyrings/docker.asc
+        echo \
+          "deb [arch=$(dpkg --print-architecture) signed-by=/etc/apt/keyrings/docker.asc] https://download.docker.com/linux/ubuntu \
+          $(. /etc/os-release && echo "${UBUNTU_CODENAME:-$VERSION_CODENAME}") stable" | \
+        sudo tee /etc/apt/sources.list.d/docker.list > /dev/null
+
+        sudo apt-get update
+        sudo apt-get install -y docker-ce docker-ce-cli containerd.io docker-buildx-plugin docker-compose-plugin
+    }
+
+# Verificar se instalação foi bem-sucedida
+    if command -v docker >/dev/null 2>&1; then
+        echo "Docker successfully installed: $(docker --version)"
+    else
+        echo "Docker installation failed. Please install it manually before continuing."
+        exit 1
+    fi
+fi
+
+# Copiando bloom
+mkdir -p "$HOME/.bloom"
+cp -r ./core/* "$HOME/.bloom/"
+cp -r ./.env.example* "$HOME/.bloom/.env"
+
+# Adicionando bloom como comando
+chmod +x "$HOME/.bloom/bloom"
+
+# Criar link simbólico
+if [ ! -f /usr/local/bin/bloom ]; then
+    sudo ln -sf "$HOME/.bloom/bloom" /usr/local/bin/bloom
+fi
+
+bloom
